@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Portal de Notícias</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a class="logo" href="Index.html">Portal News</a>
+            <div class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+
+<br><br>
+    <form action="/" method="GET" class="barra-pesquisa">
+        <input type="text" name="q" placeholder="Buscar notícias..." required />
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    <!-- INÍCIO DO LOOP: Para cada notícia na lista... -->
+    <main class="container-noticias">
+
+        <% noticias.forEach(function(item) { %>
+            <article class="card-noticia">
+            </article>
+            <% }) %>
+
+
+                <% noticias.forEach(function(item) { %>
+                    <article class="card-noticia">
+                        <!-- Lógica da Imagem: Se não tiver foto na API, usa uma padrão -->
+                        <img src="<%= item.urlToImage || '/img/padrao.jpg' %>" alt="Imagem da notícia"
+                            onerror="this.src='/img/padrao.jpg'" />
+                        <div class="conteudo">
+                            <h3>
+                                <%= item.title %>
+                            </h3>
+                            <!-- Descrição (limita caso venha vazio) -->
+                            <p>
+                                <%= item.description || 'Sem descrição disponível.' %>
+                            </p>
+                            <!-- Link para a notícia original -->
+                            <a href="<%= item.url %>" target="_blank" class="botao">Ler Completa</a>
+                        </div>
+                    </article>
+                    <% }); %>
+    </main>
+    <!-- FIM DO LOOP -->
+
+
+    <footer class="blog-footer">
+        <div class="container">
+            <p>© 2025 Portal News — Portal de Noticias.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        (function () {
+            const input = document.getElementById('search');
+            const posts = Array.from(document.querySelectorAll('.post-card'));
+            const tagBtns = Array.from(document.querySelectorAll('.tag-btn'));
+            const clearBtn = document.getElementById('clearBtn');
+            let activeTag = 'all';
+
+            function filterPosts() {
+                const q = (input.value || '').trim().toLowerCase();
+                posts.forEach(post => {
+                    const title = post.dataset.title.toLowerCase();
+                    const tags = post.dataset.tags.toLowerCase();
+                    const matchesQuery = !q || title.includes(q) || tags.includes(q);
+                    const matchesTag = activeTag === 'all' || tags.split(',').includes(activeTag);
+                    post.style.display = (matchesQuery && matchesTag) ? '' : 'none';
+                });
+            }
+
+            input.addEventListener('input', filterPosts);
+            clearBtn.addEventListener('click', () => {
+                input.value = '';
+                activeTag = 'all';
+                tagBtns.forEach(b => b.classList.toggle('active', b.dataset.tag === 'all'));
+                filterPosts();
+            });
+
+            tagBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeTag = btn.dataset.tag;
+                    tagBtns.forEach(b => b.classList.toggle('active', b === btn));
+                    filterPosts();
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
+
+
+
+<main></main>
+<script src="mobile-navbar.js"></script>
+</body>
+
+</html>

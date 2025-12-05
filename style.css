@@ -1,0 +1,264 @@
+/* --- Configuração do Header --- */
+header {
+    background-color: #23232e; /* Fundo escuro para destaque */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 100%;
+    /* Garante que o menu fique fixo no topo se rolar a página (opcional) */
+    position: relative; 
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    height: 8vh; /* Altura da barra de navegação */
+    background: #23232e;
+}
+
+/* --- Logo --- */
+.logo {
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* --- Lista de Navegação (Desktop) --- */
+.nav-list {
+    list-style: none;
+    display: flex;
+}
+
+.nav-list li {
+    letter-spacing: 2px;
+    margin-left: 32px;
+}
+
+.nav-list a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nav-list a:hover {
+    color: #3498db; /* Azul claro ao passar o mouse */
+    opacity: 0.7;
+}
+
+/* --- Menu Hamburguer (Mobile) --- */
+.mobile-menu {
+    display: none; /* Escondido no Desktop */
+    cursor: pointer;
+}
+
+.mobile-menu div {
+    width: 32px;
+    height: 2px;
+    background: #fff;
+    margin: 8px;
+    transition: 0.3s;
+}
+
+/* --- Responsividade (Telas menores que 999px) --- */
+@media (max-width: 999px) {
+    body {
+        overflow-x: hidden; /* Evita barra de rolagem horizontal */
+    }
+
+    /* Oculta os itens da lista e transforma em menu lateral */
+    .nav-list {
+        position: absolute;
+        top: 8vh;
+        right: 0;
+        width: 50vw; /* Ocupa metade da tela */
+        height: 92vh;
+        background: #23232e;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        transform: translateX(100%); /* Esconde o menu para a direita */
+        transition: transform 0.3s ease-in;
+        z-index: 999;
+    }
+
+    /* Itens da lista no mobile */
+    .nav-list li {
+        margin-left: 0;
+        opacity: 0; /* Começa invisível para animação */
+    }
+
+    /* Mostra o ícone do menu hamburguer */
+    .mobile-menu {
+        display: block;
+    }
+
+    /* Classe que o JavaScript irá adicionar quando clicar */
+    .nav-list.active {
+        transform: translateX(0); /* Traz o menu de volta para a tela */
+    }
+
+    /* Animação de entrada dos itens (opcional) */
+    @keyframes navLinkFade {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .nav-list.active li {
+        opacity: 1; /* Torna visível quando ativo */
+        /* Aqui você pode adicionar animação se quiser */
+    }
+}
+
+/* --- Animação do Ícone X (Quando ativo) --- */
+.mobile-menu.active .line1 {
+    transform: rotate(-45deg) translate(-8px, 8px);
+}
+
+.mobile-menu.active .line2 {
+    opacity: 0;
+}
+
+.mobile-menu.active .line3 {
+    transform: rotate(45deg) translate(-5px, -7px);
+}
+
+/*================================================================================================*/
+
+/* --- Reset e Corpo --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza tudo */
+}
+
+/* --- Barra de Pesquisa (.barra-pesquisa) --- */
+.barra-pesquisa {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    gap: 10px;
+}
+
+.barra-pesquisa input {
+    flex: 1; /* Ocupa o espaço restante */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.barra-pesquisa button {
+    padding: 12px 25px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.barra-pesquisa button:hover {
+    background-color: #c0392b;
+}
+
+/* --- Layout das Notícias (Grid) --- */
+/* DICA: Adiciona uma <main> ou <div class="container"> ao redor do loop no EJS para isso funcionar melhor */
+body > main, body > div.container { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- Cartão da Notícia (.card-noticia) --- */
+.card-noticia {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.card-noticia:hover {
+    transform: translateY(-5px); /* Efeito de subir ao passar o rato */
+}
+
+.card-noticia img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Garante que a imagem preenche sem distorcer */
+}
+
+/* --- Conteúdo Interno (.conteudo) --- */
+.conteudo {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.conteudo h3 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.conteudo p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* --- Botão (.botao) --- */
+.botao {
+    margin-top: auto; /* Empurra o botão para o fundo do cartão */
+    display: inline-block;
+    text-align: center;
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.botao:hover {
+    background-color: #2980b9;
+}
+
+.container-noticias {
+    display: grid;
+    /* Cria colunas automáticas: Mínimo de 300px, máximo expande para caber */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; /* Espaço entre os cartões */
+    width: 100%;
+    max-width: 1200px; /* Largura máxima da grade */
+    margin: 0 auto; /* Centraliza a grade na tela */
+    padding: 20px;
+}
